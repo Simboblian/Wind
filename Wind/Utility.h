@@ -9,18 +9,15 @@ namespace ut
 	const float SCALE = 32.f;
 	const float PI = 3.141592653589793f;
 
-	const char* const b_Bullet= "b_Bullet";
-	const char* const b_Character = "b_Character";
-	const char* const b_Weapon = "b_Weapon";
-	const char* const b_Doodad = "b_Doodad";
-	const char* const b_Land = "b_Land";
-
-	const char* const f_Hurtbox = "f_Hurtbox";
-	const char* const f_Invincible = "f_Invincible";
-	const char* const f_Hitbox = "f_Hitbox";
-	const char* const f_Foot = "f_Foot";
-	const char* const f_Floor = "f_Floor";
-	const char* const f_Wall = "f_Wall";
+	const char* const DEAD = "DEAD";
+	const char* const GRND = "GRND";
+	const char* const SEED = "SEED";
+	const char* const TREE = "TREE";
+	const char* const TRE0 = "TRE0";
+	const char* const TRE1 = "TRE1"; 
+	const char* const TRE2 = "TRE2";
+	const char* const TRE3 = "TRE3";
+	const char* const TRE4 = "TRE4";
 };
 
 class Utility

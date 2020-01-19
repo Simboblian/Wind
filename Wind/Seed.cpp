@@ -8,9 +8,9 @@ bool Seed::BulletUpdate(sf::Vector2f WindStrength)
 	return (++_lifeCounter > _timeToLive);
 }
 
-void Seed::Draw(sf::RenderWindow* Window)
+void Seed::Draw(sf::RenderWindow& Window)
 {
-	Window->draw(*_shape);
+	Window.draw(*_shape);
 }
 
 Seed::Seed(float SeedSize, b2World& World)
@@ -22,6 +22,10 @@ Seed::Seed(float SeedSize, b2World& World)
 	_shape->setOrigin(SeedSize, SeedSize);
 	_shape->setFillColor(SEEDCOLOR);
 	CreateCircularBody(World, Utility::ScaleToB2(SeedSize));
+	GetBody()->SetBullet(true);
+	GetBody()->SetUserData((void*)ut::SEED);
+
+	_shape->setPosition(Utility::B2VECtoSFVEC(GetBody()->GetPosition(), true));
 }
 
 Seed::Seed()

@@ -13,6 +13,9 @@ bool Engine::Init()
 
 	_world = new b2World(b2Vec2(0, 9.8f));
 
+	_collision = new CollisionHandler;
+	_world->SetContactListener(_collision);
+
 	_ground = new Ground(_camera->GetSize(), _camera->GetPosition(), *_world);
 	_wind = new Wind(_camera->GetSize(), _camera->GetPosition(), *_world);
 	_cannon = new Cannon(_ground->GetCannonPos(), *_world);
@@ -58,17 +61,16 @@ void Engine::ProcessInput()
 		_camera->SetPosition(sf::Vector2f(_camera->GetPosition().x + 10, _camera->GetPosition().y));
 	if (Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 		_camera->SetPosition(sf::Vector2f(_camera->GetPosition().x - 10, _camera->GetPosition().y));
-
 }
 
 void Engine::RenderFrame()
 {
 	_window->clear(SKYCOLOR);
 
-	_ground->Draw(_window);
-	_cannon->Draw(_window);
-	_wind->Draw(_window);
-	//_world->DrawDebugData();
+	_ground->Draw(*_window);
+	_cannon->Draw(*_window);
+	_wind->Draw(*_window);
+	_world->DrawDebugData();
 
 	_window->display();
 }
@@ -83,6 +85,12 @@ void Engine::Update()
 
 	_wind->Update(_camera->GetSize(), _camera->GetPosition(), *_world);
 	_cannon->Update(_mousePos, _wind->GetStrength(), *_world);
+
+	if (_collision->GetCollisions().size() > 0)
+	{
+		_ground->SummonTree(0, _collision->GetCollisions().back()->_position, *_world);
+		_collision->GetCollisions().pop_back();
+	}
 
 	_world->SetGravity(b2Vec2(0, GRAVITY));
 }

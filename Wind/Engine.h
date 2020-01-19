@@ -1,6 +1,7 @@
 #ifndef _ENGINE_H
 #define _ENGINE_H
 
+#include "CollisionHandler.h"
 #include "Camera.h"
 #include "Ground.h"
 #include "Cannon.h"
@@ -16,6 +17,7 @@ class Engine
 private:
 	SFMLDebugDraw* _debugDraw;
 
+	CollisionHandler* _collision;
 	sf::RenderWindow* _window;
 	b2World* _world;
 	Ground* _ground;

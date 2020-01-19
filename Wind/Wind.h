@@ -22,7 +22,7 @@ public:
 	void RandomizeStrength() { _targetStrength = (float)((rand() %100 - 50)) / 5; };
 	
 	void Update(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World);
-	void Draw(sf::RenderWindow* Window);
+	void Draw(sf::RenderWindow& Window);
 
 	Wind(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World);
 	Wind();

@@ -52,11 +52,9 @@ void Wind::Update(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& Worl
 			_blossoms[i]->Update(_strength);
 		}
 	}
-
-	std::cout << _blossoms.size() << std::endl;
 }
 
-void Wind::Draw(sf::RenderWindow* Window)
+void Wind::Draw(sf::RenderWindow& Window)
 {
 	for (int i = 0; i < _blossoms.size(); i++)
 	{

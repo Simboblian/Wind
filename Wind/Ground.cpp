@@ -28,10 +28,19 @@ sf::Vector2f Ground::NewPosition(sf::Vector2f currentPos)
 	return newPosition;
 }
 
-void Ground::Draw(sf::RenderWindow* Window)
+void Ground::SummonTree(int Type, sf::Vector2f Position, b2World& World)
+{
+	Tree* tree = new Tree(Type, sf::Vector2f(0.1, 0.5), Position, World);
+	_trees.push_back(tree);
+}
+
+void Ground::Draw(sf::RenderWindow& Window)
 {
 	for (int i = 0; i < _groundShapes.size(); i++)
-		Window->draw(*_groundShapes[i]);
+		Window.draw(*_groundShapes[i]);
+
+	for (int i = 0; i < _trees.size(); i++)
+		_trees[i]->Draw();
 }
 
 Ground::Ground()
@@ -90,6 +99,8 @@ Ground::Ground(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World)
 		fixDef.shape = &shape;
 		_groundBody->CreateFixture(&fixDef);
 	}
+
+	_groundBody->SetUserData((void*)ut::GRND);
 }
 
 Ground::~Ground()

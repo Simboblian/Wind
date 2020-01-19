@@ -8,13 +8,13 @@ void Blossom::SetPosition(sf::Vector2f Position)
 
 void Blossom::Update(float Strength)
 {
-	GetBody()->SetLinearVelocity(b2Vec2(Strength, 1));
+	GetBody()->SetLinearVelocity(b2Vec2(Strength, 0.5));
 	_shape->setPosition(Utility::B2VECtoSFVEC(GetBody()->GetPosition(), true));
 }
 
-void Blossom::Draw(sf::RenderWindow* Window)
+void Blossom::Draw(sf::RenderWindow& Window)
 {
-	Window->draw(*_shape);
+	Window.draw(*_shape);
 }
 
 Blossom::Blossom(float Radius, b2World& World)

@@ -13,7 +13,7 @@ public:
 	void SetPosition(sf::Vector2f Position);
 
 	void Update(float Strength);
-	void Draw(sf::RenderWindow* Window);
+	void Draw(sf::RenderWindow &Window);
 
 	Blossom(float Radius, b2World& World);
 	Blossom();
