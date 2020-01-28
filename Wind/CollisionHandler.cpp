@@ -5,31 +5,54 @@ void CollisionHandler::BeginContact(b2Contact * contact)
 	b2Fixture* _fixtureA = contact->GetFixtureA();
 	b2Fixture* _fixtureB = contact->GetFixtureB();
 
-	if (_fixtureA->GetBody()->GetUserData() == (void*)ut::SEED && _fixtureB->GetBody()->GetUserData() == (void*)ut::GRND)
+	if (_fixtureA->GetBody()->GetUserData() == (void*)ut::SEED)
 	{
-		_fixtureA->GetBody()->SetUserData((void*)ut::DEAD);
+		if (_fixtureB->GetBody()->GetUserData() == (void*)ut::GRND)
+		{
+			_fixtureA->GetBody()->SetUserData((void*)ut::DEAD);
 
-		Collision* collision = new Collision();
-		collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localNormal, true);
+			Collision* collision = new Collision();
+			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
+			collision->_type = ut::GRND;
 
-		CollisionList.push_back(collision);
+			CollisionList.push_back(collision);
+		}
+		else if (_fixtureB->GetBody()->GetUserData() == (void*)ut::TREE)
+		{
+			_fixtureA->GetBody()->SetUserData((void*)ut::DEAD);
 
-		std::cout << "Body A: " << _fixtureA->GetBody()->GetTransform().p.x << ", " << _fixtureA->GetBody()->GetTransform().p.y << std::endl;
-		std::cout << "Body B: " << _fixtureB->GetBody()->GetTransform().p.x << ", " << _fixtureB->GetBody()->GetTransform().p.y << std::endl;
-		std::cout << "Contact: " << collision->_position.x << ", " << collision->_position.y << std::endl;
+			Collision* collision = new Collision();
+			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
+			collision->_type = ut::TREE;
+
+			CollisionList.push_back(collision);
+		}
 	}
 
-	if (_fixtureA->GetBody()->GetUserData() == (void*)ut::GRND && _fixtureB->GetBody()->GetUserData() == (void*)ut::SEED)
+	//Then same as above but A is B ya know?
+
+	if (_fixtureB->GetBody()->GetUserData() == (void*)ut::SEED)
 	{
-		_fixtureB->GetBody()->SetUserData((void*)ut::DEAD);
-		Collision* collision = new Collision();
-		collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localNormal, true);
+		if (_fixtureA->GetBody()->GetUserData() == (void*)ut::GRND)
+		{
+			_fixtureB->GetBody()->SetUserData((void*)ut::DEAD);
 
-		CollisionList.push_back(collision);
+			Collision* collision = new Collision();
+			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
+			collision->_type = ut::GRND;
 
-		std::cout << "Body A: " << _fixtureA->GetBody()->GetTransform().p.x << ", " << _fixtureA->GetBody()->GetTransform().p.y << std::endl;
-		std::cout << "Body B: " << _fixtureB->GetBody()->GetTransform().p.x << ", " << _fixtureB->GetBody()->GetTransform().p.y << std::endl;
-		std::cout << "Contact: " << collision->_position.x << ", " << collision->_position.y << std::endl;
+			CollisionList.push_back(collision);
+		}
+		else if (_fixtureA->GetBody()->GetUserData() == (void*)ut::TREE)
+		{
+			_fixtureB->GetBody()->SetUserData((void*)ut::DEAD);
+
+			Collision* collision = new Collision();
+			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
+			collision->_type = ut::TREE;
+
+			CollisionList.push_back(collision);
+		}
 	}
 }
 

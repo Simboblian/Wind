@@ -91,7 +91,7 @@ Cannon::Cannon()
 
 Cannon::Cannon(sf::Vector2f Position, b2World& World)
 {
-	CreateSquareBody(World, sf::Vector2f(1.25, 0.5));
+	CreateSquareBody(World, sf::Vector2f(1.25, 0.5), b2BodyType::b2_dynamicBody);
 	SetPosition(Position);
 	GetBody()->SetGravityScale(0);
 	GetBody()->GetFixtureList()[0].SetSensor(true);

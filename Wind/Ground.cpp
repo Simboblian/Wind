@@ -30,7 +30,7 @@ sf::Vector2f Ground::NewPosition(sf::Vector2f currentPos)
 
 void Ground::SummonTree(int Type, sf::Vector2f Position, b2World& World)
 {
-	Tree* tree = new Tree(Type, sf::Vector2f(0.1, 0.5), Position, World);
+	Tree* tree = new Tree(Type, sf::Vector2f(0.3, 1.0), sf::Vector2f(Position.x, Position.y - Utility::ScaleFromB2(0.4)), World);
 	_trees.push_back(tree);
 }
 
@@ -40,7 +40,7 @@ void Ground::Draw(sf::RenderWindow& Window)
 		Window.draw(*_groundShapes[i]);
 
 	for (int i = 0; i < _trees.size(); i++)
-		_trees[i]->Draw();
+		_trees[i]->Draw(Window);
 }
 
 Ground::Ground()

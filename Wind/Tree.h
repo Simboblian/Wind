@@ -12,9 +12,10 @@ private:
 	sf::Sprite _sprite;
 
 
+
 public:
 	void Update();
-	void Draw();
+	void Draw(RenderWindow& Window);
 
 	Tree(int Index, sf::Vector2f Size, sf::Vector2f Position, b2World& World);
 	Tree();

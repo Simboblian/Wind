@@ -21,7 +21,7 @@ Seed::Seed(float SeedSize, b2World& World)
 	_shape = new sf::CircleShape(SeedSize, 20);
 	_shape->setOrigin(SeedSize, SeedSize);
 	_shape->setFillColor(SEEDCOLOR);
-	CreateCircularBody(World, Utility::ScaleToB2(SeedSize));
+	CreateCircularBody(World, Utility::ScaleToB2(SeedSize), b2BodyType::b2_dynamicBody);
 	GetBody()->SetBullet(true);
 	GetBody()->SetUserData((void*)ut::SEED);
 

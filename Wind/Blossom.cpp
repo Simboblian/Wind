@@ -22,7 +22,7 @@ Blossom::Blossom(float Radius, b2World& World)
 	_shape = new sf::CircleShape(Radius, 20);
 	_shape->setOrigin(Radius, Radius);
 	_shape->setFillColor(BLOSSOMCOLOR);
-	CreateCircularBody(World, Utility::ScaleToB2(Radius));
+	CreateCircularBody(World, Utility::ScaleToB2(Radius), b2BodyType::b2_dynamicBody);
 	GetBody()->GetFixtureList()[0].SetSensor(true);
 	GetBody()->SetGravityScale(0);
 }

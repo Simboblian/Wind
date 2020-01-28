@@ -13,9 +13,9 @@ class GameEntity
 protected:
 	b2Body* body;
 public:
-	virtual void CreateRoundedBody(b2World& World, Vector2f Size);
-	virtual void CreateSquareBody(b2World& World, Vector2f Size);
-	virtual void CreateCircularBody(b2World& World, float Radius);
+	virtual void CreateRoundedBody(b2World& World, Vector2f Size, b2BodyType Type);
+	virtual void CreateSquareBody(b2World& World, Vector2f Size, b2BodyType Type);
+	virtual void CreateCircularBody(b2World& World, float Radius, b2BodyType Type);
 	virtual void CreateRoundedFixture(Vector2f Size);
 	virtual void CreateSquareFixture(Vector2f Size);
 	virtual void CreateCircleFixture(float Radius);

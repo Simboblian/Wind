@@ -1,29 +1,29 @@
 #include "GameEntity.h"
 
-void GameEntity::CreateRoundedBody(b2World &World, Vector2f Size)
+void GameEntity::CreateRoundedBody(b2World &World, Vector2f Size, b2BodyType Type)
 {
 	b2BodyDef _bodyDef;
-	_bodyDef.type = b2_dynamicBody;
+	_bodyDef.type = Type;
 	_bodyDef.position.Set(0, 0);
 	_bodyDef.fixedRotation = true;
 	body = World.CreateBody(&_bodyDef);
 	CreateRoundedFixture(Size);
 }
 
-void GameEntity::CreateSquareBody(b2World& World, Vector2f Size)
+void GameEntity::CreateSquareBody(b2World& World, Vector2f Size, b2BodyType Type)
 {
 	b2BodyDef _bodyDef;
-	_bodyDef.type = b2_dynamicBody;
+	_bodyDef.type = Type;
 	_bodyDef.position.Set(0, 0);
 	_bodyDef.fixedRotation = true;
 	body = World.CreateBody(&_bodyDef);
 	CreateSquareFixture(Size);
 }
 
-void GameEntity::CreateCircularBody(b2World & World, float Radius)
+void GameEntity::CreateCircularBody(b2World & World, float Radius, b2BodyType Type)
 {
 	b2BodyDef _bodyDef;
-	_bodyDef.type = b2_dynamicBody;
+	_bodyDef.type = Type;
 	_bodyDef.position.Set(0, 0);
 	body = World.CreateBody(&_bodyDef);
 	CreateCircleFixture(Radius);

@@ -4,10 +4,13 @@
 #include <iostream>
 #include <Box2D/Box2D.h>
 #include "utility.h"
+#include "GameEntity.h"
 
 struct Collision
 {
 	sf::Vector2f _position;
+	std::string _type;
+	std::vector<b2Body*> _collidingEntities;
 };
 
 class CollisionHandler : public b2ContactListener
