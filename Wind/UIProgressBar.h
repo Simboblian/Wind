@@ -25,6 +25,7 @@ public:
 	bool IsEmpty() { return(m_Current == 0); };
 
 	void SetColour(sf::Color Colour) { m_Fill.setFillColor(Colour); };
+	void SetBackgroundColour(sf::Color Colour) { m_Outline.setFillColor(Colour); };
 	void SetMax(float Max) { m_Max = Max; m_Current = m_Max; };
 	void SetCurrent(float Current) { m_Current = Current; if (m_AllowRegen) StopRegen(); };
 	void SetSize(sf::Vector2f Size) { m_Size = Size; m_Fill.setSize(m_Size); m_Outline.setSize(m_Size); };

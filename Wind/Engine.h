@@ -11,6 +11,7 @@
 
 #define GRAVITY 1
 #define SKYCOLOR sf::Color(16, 48, 64, 255)
+#define SCOREOFFSET sf::Vector2f(-200.0f, 10.0f)
 
 class Engine
 {
@@ -24,6 +25,11 @@ private:
 	Camera* _camera;
 	Wind* _wind;
 	Cannon* _cannon;
+
+	sf::Font _font;
+	sf::Text* _text;
+	std::string _scoreString;
+	int _score;
 
 	sf::Vector2f _mousePos;
 

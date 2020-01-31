@@ -34,13 +34,19 @@ void Ground::SummonTree(int Type, sf::Vector2f Position, b2World& World)
 	_trees.push_back(tree);
 }
 
+void Ground::Update()
+{
+	for (int i = 0; i < _trees.size(); i++)
+		_trees[i]->Update();
+}
+
 void Ground::Draw(sf::RenderWindow& Window)
 {
-	for (int i = 0; i < _groundShapes.size(); i++)
-		Window.draw(*_groundShapes[i]);
-
 	for (int i = 0; i < _trees.size(); i++)
 		_trees[i]->Draw(Window);
+
+	for (int i = 0; i < _groundShapes.size(); i++)
+		Window.draw(*_groundShapes[i]);
 }
 
 Ground::Ground()
@@ -54,6 +60,7 @@ Ground::Ground(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World)
 	bodyDef.position.Set(Utility::ScaleToB2(WindowPos.x), Utility::ScaleToB2(WindowPos.y));
 
 	_groundBody = World.CreateBody(&bodyDef);
+	_borderBody = World.CreateBody(&bodyDef);
 
 	b2EdgeShape shape;
 
@@ -88,8 +95,8 @@ Ground::Ground(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World)
 
 		pos1 = pos2;
 		pos2 = NewPosition(pos1);
-		if (pos2.y > (WindowPos.y + (WindowSize.y / 2)))
-			pos2.y = (WindowPos.y + (WindowSize.y / 2));
+		if (pos2.y > (WindowPos.y + (WindowSize.y / 2) - 25))
+			pos2.y = (WindowPos.y + (WindowSize.y / 2) - 25);
 
 		PopulateGroundShape(pos1, pos2, WindowPos, WindowSize);
 
@@ -99,8 +106,38 @@ Ground::Ground(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World)
 		fixDef.shape = &shape;
 		_groundBody->CreateFixture(&fixDef);
 	}
-
 	_groundBody->SetUserData((void*)ut::GRND);
+
+	//Creating the border of the screen
+	pos1 = sf::Vector2f(WindowPos.x - (WindowSize.x / 2), WindowPos.y - (WindowSize.y / 2));
+	pos2 = sf::Vector2f(WindowPos.x - (WindowSize.x / 2), WindowPos.y + (WindowSize.y / 2));
+	shape.Set(Utility::SFVECtoB2VEC(pos1, true), Utility::SFVECtoB2VEC(pos2, true));
+
+	fixDef.shape = &shape;
+	_borderBody->CreateFixture(&fixDef);
+
+	pos1 = pos2;
+	pos2 = sf::Vector2f(WindowPos.x + (WindowSize.x / 2), WindowPos.y + (WindowSize.y / 2));
+	shape.Set(Utility::SFVECtoB2VEC(pos1, true), Utility::SFVECtoB2VEC(pos2, true));
+
+	fixDef.shape = &shape;
+	_borderBody->CreateFixture(&fixDef);
+
+	pos1 = pos2;
+	pos2 = sf::Vector2f(WindowPos.x + (WindowSize.x / 2), WindowPos.y - (WindowSize.y / 2));
+	shape.Set(Utility::SFVECtoB2VEC(pos1, true), Utility::SFVECtoB2VEC(pos2, true));
+
+	fixDef.shape = &shape;
+	_borderBody->CreateFixture(&fixDef);
+
+	pos1 = pos2;
+	pos2 = sf::Vector2f(WindowPos.x - (WindowSize.x / 2), WindowPos.y - (WindowSize.y / 2));
+	shape.Set(Utility::SFVECtoB2VEC(pos1, true), Utility::SFVECtoB2VEC(pos2, true));
+
+	fixDef.shape = &shape;
+	_borderBody->CreateFixture(&fixDef);
+
+	_borderBody->SetUserData((void*)ut::BRDR);
 }
 
 Ground::~Ground()

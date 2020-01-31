@@ -2,20 +2,20 @@
 #define _WIND_H
 
 #include <iostream>
-#include "Blossom.h"
+#include "Particle.h"
 
 #define LERPSPEED 0.05f
 #define BLOSSOMRADIUS 2.5f
-#define SUMMONRATE 20.0f //Less is faster here
-#define DIRECTIONCHANGERATE 600.0f
+#define SUMMONRATE 60.0f //Less is faster here
 
 class Wind
 {
 private:
 	float _targetStrength, _strength;
-	int _directionCounter, _summonCounter, _summon;
+	int _summonCounter, _summon;
+	float _wiggleCounter;
 
-	std::vector<Blossom*> _blossoms;
+	std::vector<Particle*> _blossoms;
 public:
 	float GetStrength() { return _strength; };
 

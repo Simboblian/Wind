@@ -9,6 +9,7 @@ namespace ut
 	const float SCALE = 32.f;
 	const float PI = 3.141592653589793f;
 
+	const char* const BRDR = "BRDR";
 	const char* const DEAD = "DEAD";
 	const char* const GRND = "GRND";
 	const char* const SEED = "SEED";

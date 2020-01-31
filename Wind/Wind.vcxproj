@@ -129,7 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Blossom.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="CollisionHandler.cpp" />
@@ -145,7 +145,7 @@
     <ClCompile Include="Wind.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Blossom.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cannon.h" />
     <ClInclude Include="CollisionHandler.h" />

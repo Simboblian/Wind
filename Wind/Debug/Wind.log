@@ -1,2 +1,9 @@
 ﻿  Tree.cpp
+D:\Simon\Documents\GitHub\Wind\Wind\Tree.cpp(36,20): warning C4018: '<': signed/unsigned mismatch
+D:\Simon\Documents\GitHub\Wind\Wind\Tree.cpp(51,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Simon\Documents\GitHub\Wind\Wind\Tree.cpp(56,20): warning C4018: '<': signed/unsigned mismatch
+D:\Simon\Documents\GitHub\Wind\Wind\Tree.cpp(61,20): warning C4018: '<': signed/unsigned mismatch
+D:\Simon\Documents\GitHub\Wind\Wind\Tree.cpp(75,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\Simon\Documents\GitHub\Wind\Wind\Tree.cpp(114,42): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Simon\Documents\GitHub\Wind\Wind\Tree.cpp(119,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Wind.vcxproj -> D:\Simon\Documents\GitHub\Wind\Debug\Wind.exe

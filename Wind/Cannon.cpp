@@ -14,17 +14,39 @@ void Cannon::Shoot(sf::Vector2f MousePos, b2World& World, float Power)
 	
 	seed->GetBody()->ApplyLinearImpulseToCenter(Utility::SFVECtoB2VEC(impulse, true), true);
 	_seeds.push_back(seed);
+
+	for (int i = 0; i < 20; i++)
+	{
+		int Color = (rand() % 20 + 25) * 5;
+		float Angle = Utility::DEGTORAD((rand() % 45) + 117.5);
+		float Strength = rand() % 5 / 5.0f;
+		sf::Vector2f Impulse = sf::Vector2f(sin(Angle), cos(Angle));
+		Impulse = Utility::SetLength(Impulse, Strength);
+		
+		Particle* particle = new Particle(rand() % 5 + 2, World, rand() % 100 + 100);
+		particle->SetPosition(GetPosition() + Utility::SetLength(impulse, 20));
+		particle->GetBody()->SetGravityScale(-1);
+		particle->GetBody()->GetFixtureList()[0].SetDensity((rand() %10 + 1) / 10.0f);
+		particle->SetColor(sf::Color(Color, Color, Color, rand()% 255));
+		particle->GetBody()->ApplyLinearImpulseToCenter(Utility::SFVECtoB2VEC(Impulse, true), true);
+
+		_particles.push_back(particle);
+	}
 }
 
 void Cannon::ProcessInput(sf::Event Event)
 {
-	if (Mouse::isButtonPressed(sf::Mouse::Left))
-		_pressed = true;
-
-	if (!Mouse::isButtonPressed(sf::Mouse::Left) && _pressed)
+	if (_available)
 	{
-		_pressed = false;
-		_shoot = true;
+		if (Mouse::isButtonPressed(sf::Mouse::Left))
+			_pressed = true;
+
+		if (!Mouse::isButtonPressed(sf::Mouse::Left) && _pressed)
+		{
+			_available = false;
+			_pressed = false;
+			_shoot = true;
+		}
 	}
 }
 
@@ -34,9 +56,20 @@ void Cannon::Update(sf::Vector2f MousePos, float WindStrength, b2World& World)
 
 	GetBody()->SetTransform(GetBody()->GetPosition(), _angle);
 
+	if (_available)
+	{
+		if(_barrel->getFillColor() != BARRELCOLOR)
+			_barrel->setFillColor(BARRELCOLOR);
+	}
+	else
+	{
+		if (_barrel->getFillColor() != USEDBARRELCOLOR)
+			_barrel->setFillColor(USEDBARRELCOLOR);
+	}
+
 	if (_pressed)
 	{
-		_power += 0.5;
+		_power += 0.25;
 		if (_power > MAXPOWER)
 			_power = MAXPOWER;
 	}
@@ -49,6 +82,21 @@ void Cannon::Update(sf::Vector2f MousePos, float WindStrength, b2World& World)
 			_previousPowerMeter->SetCurrent(_power);
 		}
 		_power = 0.0f;
+	}
+
+	for (int i = 0; i < _particles.size(); i++)
+	{
+		_particles[i]->Update(sf::Vector2f(WindStrength, 0));
+
+		if (_particles[i]->GetBody()->GetUserData() == (void*)ut::DEAD)
+		{
+			_particles[i]->GetBody()->DestroyFixture(&_particles[i]->GetBody()->GetFixtureList()[0]);
+			delete _particles[i];
+			_particles.erase(_particles.begin() + i);
+
+			if (_particles.size() == 0)
+				break;
+		}
 	}
 
 	for (int i = 0; i < _seeds.size(); i++)
@@ -73,16 +121,24 @@ void Cannon::Update(sf::Vector2f MousePos, float WindStrength, b2World& World)
 
 void Cannon::Draw(sf::RenderWindow& Window)
 {
-	_previousPowerMeter->Draw(Window);
-	_powerMeter->Draw(Window);
-
 	for (int i = 0; i < _seeds.size(); i++)
 	{
 		_seeds[i]->Draw(Window);
 	}
+	for (int i = 0; i < _particles.size(); i++)
+	{
+		_particles[i]->Draw(Window);
+	}
 
 	Window.draw(*_barrel);
 	Window.draw(*_stand);
+}
+
+void Cannon::DrawUI(sf::RenderWindow& Window)
+{
+	_previousPowerMeter->Draw(Window);
+	_powerMeter->Draw(Window);
+	Window.draw(*_text);
 }
 
 Cannon::Cannon()
@@ -96,6 +152,13 @@ Cannon::Cannon(sf::Vector2f Position, b2World& World)
 	GetBody()->SetGravityScale(0);
 	GetBody()->GetFixtureList()[0].SetSensor(true);
 
+	if (!_font.loadFromFile("Resources/Fonts/Pacifico-Regular.ttf"))
+	{
+		std::cout << "Unable to Load Font!" << std::endl;
+	}
+	_text = new sf::Text("Power", _font, 30);
+	_text->setFillColor(sf::Color::White);
+
 	_barrel = new sf::RectangleShape();
 	_barrel->setFillColor(BARRELCOLOR);
 	_barrel->setSize(Utility::B2VECtoSFVEC(b2Vec2(1.25, 0.5), true));
@@ -108,17 +171,21 @@ Cannon::Cannon(sf::Vector2f Position, b2World& World)
 	_stand->setPoint(1, sf::Vector2f(Position.x - 12.5, Position.y + 25));
 	_stand->setPoint(2, sf::Vector2f(Position.x + 12.5, Position.y + 25));
 
-	_powerMeter = new UIProgressBar(sf::Vector2f(Position.x + POWERMETERPOS.x, Position.y + POWERMETERPOS.y), sf::Vector2f(45, 8));
+	_powerMeter = new UIProgressBar(sf::Vector2f(Position.x + POWERMETERPOS.x, Position.y + POWERMETERPOS.y), sf::Vector2f(400, 25));
 	_powerMeter->SetMax(MAXPOWER);
 	_powerMeter->SetColour(POWERCOLOR);
 	_powerMeter->SetCurrent(0.0f);
 
-	_previousPowerMeter = new UIProgressBar(sf::Vector2f(Position.x + POWERMETERPOS.x, Position.y + POWERMETERPOS.y), sf::Vector2f(45, 8));
+	_previousPowerMeter = new UIProgressBar(sf::Vector2f(Position.x + POWERMETERPOS.x, Position.y + POWERMETERPOS.y), sf::Vector2f(400, 25));
 	_previousPowerMeter->SetMax(MAXPOWER);
 	_previousPowerMeter->SetColour(PREVIOUSPOWERCOLOR);
 	_previousPowerMeter->SetCurrent(0.0f);
+	_previousPowerMeter->SetBackgroundColour(sf::Color::Black);
 
+	_text->setPosition(sf::Vector2f(Position.x + POWERMETERPOS.x, Position.y + POWERMETERPOS.y) + TEXTOFFSET);
+	_text->setScale(TEXTSCALE);
 
+	_available = true;
 }
 
 Cannon::~Cannon()

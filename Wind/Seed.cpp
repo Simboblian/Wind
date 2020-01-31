@@ -24,6 +24,7 @@ Seed::Seed(float SeedSize, b2World& World)
 	CreateCircularBody(World, Utility::ScaleToB2(SeedSize), b2BodyType::b2_dynamicBody);
 	GetBody()->SetBullet(true);
 	GetBody()->SetUserData((void*)ut::SEED);
+	GetBody()->GetFixtureList()[0].SetRestitution(0.5);
 
 	_shape->setPosition(Utility::B2VECtoSFVEC(GetBody()->GetPosition(), true));
 }

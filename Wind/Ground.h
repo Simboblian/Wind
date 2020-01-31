@@ -12,9 +12,8 @@
 class Ground
 {
 private:
-	b2Body* _groundBody;
-	float _angle;
-	float _magnitude;
+	b2Body* _groundBody, *_borderBody;
+	float _angle, _magnitude;
 	
 	sf::Vector2f _cannonPos;
 
@@ -26,6 +25,9 @@ private:
 public:
 	void SummonTree(int Type, sf::Vector2f Position, b2World& World);
 	sf::Vector2f GetCannonPos() { return _cannonPos; };
+	std::vector<Tree*> GetTrees() {	return _trees; };
+
+	void Update();
 	void Draw(sf::RenderWindow& Window);
 
 	Ground();

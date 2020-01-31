@@ -14,16 +14,24 @@ void CollisionHandler::BeginContact(b2Contact * contact)
 			Collision* collision = new Collision();
 			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
 			collision->_type = ut::GRND;
+			collision->_collidingEntities.push_back(_fixtureA->GetBody());
+			collision->_collidingEntities.push_back(_fixtureB->GetBody());
 
 			CollisionList.push_back(collision);
 		}
-		else if (_fixtureB->GetBody()->GetUserData() == (void*)ut::TREE)
+		else if (_fixtureB->GetBody()->GetUserData() == (void*)ut::TRE0 ||
+			_fixtureB->GetBody()->GetUserData() == (void*)ut::TRE1 ||
+			_fixtureB->GetBody()->GetUserData() == (void*)ut::TRE2 ||
+			_fixtureB->GetBody()->GetUserData() == (void*)ut::TRE3 ||
+			_fixtureB->GetBody()->GetUserData() == (void*)ut::TRE4)
 		{
 			_fixtureA->GetBody()->SetUserData((void*)ut::DEAD);
 
 			Collision* collision = new Collision();
 			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
 			collision->_type = ut::TREE;
+			collision->_collidingEntities.push_back(_fixtureA->GetBody());
+			collision->_collidingEntities.push_back(_fixtureB->GetBody());
 
 			CollisionList.push_back(collision);
 		}
@@ -40,16 +48,24 @@ void CollisionHandler::BeginContact(b2Contact * contact)
 			Collision* collision = new Collision();
 			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
 			collision->_type = ut::GRND;
+			collision->_collidingEntities.push_back(_fixtureA->GetBody());
+			collision->_collidingEntities.push_back(_fixtureB->GetBody());
 
 			CollisionList.push_back(collision);
 		}
-		else if (_fixtureA->GetBody()->GetUserData() == (void*)ut::TREE)
+		else if (_fixtureA->GetBody()->GetUserData() == (void*)ut::TRE0 ||
+			_fixtureA->GetBody()->GetUserData() == (void*)ut::TRE1 ||
+			_fixtureA->GetBody()->GetUserData() == (void*)ut::TRE2 ||
+			_fixtureA->GetBody()->GetUserData() == (void*)ut::TRE3 ||
+			_fixtureA->GetBody()->GetUserData() == (void*)ut::TRE4)
 		{
 			_fixtureB->GetBody()->SetUserData((void*)ut::DEAD);
 
 			Collision* collision = new Collision();
 			collision->_position = Utility::B2VECtoSFVEC(contact->GetManifold()->localPoint, true);
 			collision->_type = ut::TREE;
+			collision->_collidingEntities.push_back(_fixtureA->GetBody());
+			collision->_collidingEntities.push_back(_fixtureB->GetBody());
 
 			CollisionList.push_back(collision);
 		}

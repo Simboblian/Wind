@@ -3,7 +3,7 @@
 
 #include "GameEntity.h"
 
-#define TTL 600
+#define TTL 1000
 #define SEEDCOLOR sf::Color(160, 64, 64, 255)
 
 class Seed : public GameEntity

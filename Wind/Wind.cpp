@@ -3,11 +3,7 @@
 void Wind::Update(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World)
 {
 	_summonCounter++;
-	if (++_directionCounter > DIRECTIONCHANGERATE)
-	{
-		_directionCounter = 0;
-		RandomizeStrength();
-	}
+	//_wiggleCounter += 0.01;
 
 	_strength = _strength + LERPSPEED * ((float)_targetStrength - (float)_strength);
 
@@ -15,8 +11,8 @@ void Wind::Update(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& Worl
 	{
 		_summonCounter = 0;
 
-		Blossom* newBlossom;
-		newBlossom = new Blossom(BLOSSOMRADIUS, World);
+		Particle* newBlossom;
+		newBlossom = new Particle(BLOSSOMRADIUS, World);
 
 		float x = rand() % (int)WindowSize.x - (WindowSize.x/2);
 
@@ -50,6 +46,7 @@ void Wind::Update(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& Worl
 			}
 
 			_blossoms[i]->Update(_strength);
+			//_blossoms[i]->GetShape()->setPosition(sf::Vector2f(_blossoms[i]->GetShape()->getPosition().x + (sin(_wiggleCounter + ((float)i /10)) * 10), _blossoms[i]->GetShape()->getPosition().y));
 		}
 	}
 }
@@ -66,14 +63,13 @@ Wind::Wind(sf::Vector2f WindowSize, sf::Vector2f WindowPos, b2World& World)
 {
 	_targetStrength = 0;
 	_strength = _targetStrength;
-	_directionCounter = 0;
 	_summonCounter = 0;
 	_summon = SUMMONRATE;
 
 	for (int i = 0; i < 20; i++) //Populate the sky
 	{
-		Blossom* newBlossom;
-		newBlossom = new Blossom(BLOSSOMRADIUS, World);
+		Particle* newBlossom;
+		newBlossom = new Particle(BLOSSOMRADIUS, World);
 
 		float x = rand() % (int)WindowSize.x - (WindowSize.x / 2);
 		float y = rand() % (int)WindowSize.y - (WindowSize.y / 2);
@@ -88,7 +84,6 @@ Wind::Wind()
 {
 	RandomizeStrength();
 	_strength = _targetStrength;
-	_directionCounter = 0;
 	_summonCounter = 0;
 	_summon = SUMMONRATE;
 }
